@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -60,13 +61,34 @@ public class UserDataFacade {
     }
 
     public UserBookResponse updateUserWithBooks(UserBookRequest userBookRequest) {
-        return null;
+        UserDto userDto = userMapper.userRequestToUserDto(userBookRequest.getUserRequest());
+        UserDto updatedUser = userService.updateUser(userDto);
+
+        List<Long> bookIdList = userBookRequest.getBookRequests()
+                .stream()
+                .filter(Objects::nonNull)
+                .map(bookMapper::bookRequestToBookDto)
+                .map(bookService::updateBook)
+                .map(BookDto::getId)
+                .toList();
+        return UserBookResponse.builder()
+                .userId(updatedUser.getId())
+                .booksIdList(bookIdList)
+                .build();
     }
 
     public UserBookResponse getUserWithBooks(Long userId) {
-        return null;
+        UserDto userDto = userService.getUserById(userId);
+        List<Long> bookIdList = bookService.findBooksByUserId(userId).stream().map(BookDto::getId).collect(Collectors.toList());
+        return UserBookResponse.builder()
+                .userId(userDto.getId())
+                .booksIdList(bookIdList)
+                .build();
     }
 
     public void deleteUserWithBooks(Long userId) {
+        bookService.findBooksByUserId(userId).forEach(bookDto -> bookService.deleteBookById(bookDto.getId()));
+        userService.deleteUserById(userId);
+
     }
 }
