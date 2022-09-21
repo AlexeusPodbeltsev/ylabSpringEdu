@@ -1,10 +1,13 @@
 package com.edu.ulab.app.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseEntity implements Serializable {
     private Long id;
 }

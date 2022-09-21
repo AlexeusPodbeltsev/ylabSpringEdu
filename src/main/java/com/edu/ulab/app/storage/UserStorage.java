@@ -4,6 +4,10 @@ import com.edu.ulab.app.entity.Book;
 import com.edu.ulab.app.entity.User;
 import org.springframework.stereotype.Component;
 
+/**
+ * UserStorage class is a component, which extends abstract Storage class.
+ * This class let us work with User persist operations
+ */
 @Component
 public class UserStorage extends Storage<User, Long> {
 
