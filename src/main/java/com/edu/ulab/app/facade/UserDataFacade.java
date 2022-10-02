@@ -8,10 +8,14 @@ import com.edu.ulab.app.mapper.BookMapper;
 import com.edu.ulab.app.mapper.UserMapper;
 import com.edu.ulab.app.service.BookService;
 import com.edu.ulab.app.service.UserService;
+import com.edu.ulab.app.service.impl.BookServiceImpl;
+import com.edu.ulab.app.service.impl.UserServiceImpl;
+import com.edu.ulab.app.service.impl.UserServiceImplTemplate;
 import com.edu.ulab.app.web.request.UserBookRequest;
 import com.edu.ulab.app.web.response.UserBookResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,13 +28,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class UserDataFacade {
-    private final UserService userService;
-    private final BookService bookService;
+    private final UserServiceImplTemplate userService;
+    private final BookServiceImpl bookService;
     private final UserMapper userMapper;
     private final BookMapper bookMapper;
 
-    public UserDataFacade(UserService userService,
-                          BookService bookService,
+    public UserDataFacade(UserServiceImplTemplate userService,
+                          BookServiceImpl bookService,
                           UserMapper userMapper,
                           BookMapper bookMapper) {
         this.userService = userService;
@@ -45,6 +49,7 @@ public class UserDataFacade {
      * @return UserBookResponse which has user id and list of ids of his books.
      * @throws NullArgumentException if received List of Books is null.
      */
+    @Transactional
     public UserBookResponse createUserWithBooks(UserBookRequest userBookRequest) {
         log.info("Got user book create request: {}", userBookRequest);
         UserDto userDto = userMapper.userRequestToUserDto(userBookRequest.getUserRequest());
@@ -77,6 +82,7 @@ public class UserDataFacade {
      * @return UserBookResponse which has user id and ids of updated books.
      * @throws NullArgumentException if received List of Books is null.
      */
+    @Transactional
     public UserBookResponse updateUserWithBooks(UserBookRequest userBookRequest) {
         log.info("Got user book update request {}", userBookRequest);
         UserDto userDto = userMapper.userRequestToUserDto(userBookRequest.getUserRequest());
@@ -108,6 +114,7 @@ public class UserDataFacade {
      * @param userId is id of user we are looking for.
      * @return UserBookResponse which has user id and list of ids of his books.
      */
+    @Transactional
     public UserBookResponse getUserWithBooks(Long userId) {
         log.info("Got user with id={} to find", userId);
         UserDto userDto = userService.getUserById(userId);
@@ -128,6 +135,7 @@ public class UserDataFacade {
      * Delete user from storage and his books.
      * @param userId is id of user we want to delete.
      */
+    @Transactional
     public void deleteUserWithBooks(Long userId) {
         log.info("Got user with id={} to delete", userId);
         bookService.findBooksByUserId(userId)

@@ -1,7 +1,6 @@
 package com.edu.ulab.app.storage;
 
-import com.edu.ulab.app.entity.Book;
-import com.edu.ulab.app.entity.User;
+import com.edu.ulab.app.entity.Person;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,16 +8,16 @@ import org.springframework.stereotype.Component;
  * This class let us work with User persist operations
  */
 @Component
-public class UserStorage extends Storage<User, Long> {
+public class UserStorage extends Storage<Person, Long> {
 
 
     @Override
-    public User findById(Long id) {
+    public Person findById(Long id) {
         return super.findById(id);
     }
 
     @Override
-    public User save(User object) {
+    public Person save(Person object) {
         return super.save(object);
     }
 
