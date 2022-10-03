@@ -2,29 +2,36 @@ package com.edu.ulab.app.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "person", schema = "ulab_edu")
 public class Person extends BaseEntity {
 
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private int age;
 
-    @Builder
-    public Person(Long id, String fullName, String title, int age) {
-        super(id);
-        this.fullName = fullName;
-        this.title = title;
-        this.age = age;
-    }
+    @OneToMany(mappedBy = "person", cascade = {
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    })
+    private Set<Book> bookSet;
+
+    @Column(nullable = false)
+    private String status;
 
 
 }

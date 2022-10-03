@@ -35,7 +35,7 @@ public class BookStorage extends Storage<Book, Long> {
     public List<Book> findAllByUserId(Long id){
         List<Book> allBooks = findAll();
         List<Book> userBooks = allBooks.stream()
-                .filter(book -> book.getUserId().equals(id))
+                .filter(book -> book.getPerson().getId().equals(id))
                 .collect(Collectors.toList());
         return userBooks;
     }
