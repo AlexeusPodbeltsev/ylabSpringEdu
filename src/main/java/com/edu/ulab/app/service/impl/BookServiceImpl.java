@@ -1,7 +1,6 @@
 package com.edu.ulab.app.service.impl;
 
 import com.edu.ulab.app.dto.BookDto;
-import com.edu.ulab.app.dto.UserDto;
 import com.edu.ulab.app.entity.Book;
 import com.edu.ulab.app.exception.NotFoundException;
 import com.edu.ulab.app.exception.NullArgumentException;
@@ -35,6 +34,7 @@ public class BookServiceImpl implements BookService {
      * Firstly, it maps bookDto to book.
      * Then save new book.
      * And finally maps book to bookDto.
+     *
      * @param bookDto object received from upper layer.
      * @return saved book mapped to bookDto.
      * @throws NullArgumentException if given bookDto is null.
@@ -58,10 +58,11 @@ public class BookServiceImpl implements BookService {
      * After that find book by its id.
      * Then set received values and save this book data in database.
      * And finally maps book to bookDto.
+     *
      * @param bookDto object received from upper layer.
      * @return updated book mapped to bookDto.
      * @throws NullArgumentException if given bookDto is null.
-     * @throws NotFoundException if database doesn't contain received book
+     * @throws NotFoundException     if database doesn't contain received book
      */
     @Override
     public BookDto updateBook(BookDto bookDto) {
@@ -87,6 +88,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      * Getting Book from database by its id.
+     *
      * @param id is book's id.
      * @return book from storage mapped to bookDto.
      * @throws NotFoundException if book with received not found
@@ -103,6 +105,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      * Delete book from storage using its id.
+     *
      * @param id is book's id.
      * @throws NotFoundException if book with received id not found
      */
@@ -117,13 +120,14 @@ public class BookServiceImpl implements BookService {
 
     /**
      * Find all books using user id
+     *
      * @param id user id
      * @return list of mapped book  to bookDtos where userId equals to arg's id
      * @throws NotFoundException if there are no books with received user id in database
      */
     @Override
     public List<BookDto> findBooksByUserId(Long id) {
-        List<Book> foundBookByUserId = bookRepository.findBooksByUserId(id);
+        List<Book> foundBookByUserId = bookRepository.findBooksByPerson_Id(id);
         if (foundBookByUserId == null) {
             throw new NotFoundException("There are no books in database with user id=" + id);
         }

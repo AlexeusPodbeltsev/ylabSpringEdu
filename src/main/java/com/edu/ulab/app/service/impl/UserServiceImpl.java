@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
         foundPersonToUpdate.setAge(person.getAge());
         foundPersonToUpdate.setFullName(person.getFullName());
         foundPersonToUpdate.setTitle(person.getTitle());
+        foundPersonToUpdate.setStatus(person.getStatus());
 
         Person updatedPerson = userRepository.save(foundPersonToUpdate);
         log.info("Updated user {}", updatedPerson);

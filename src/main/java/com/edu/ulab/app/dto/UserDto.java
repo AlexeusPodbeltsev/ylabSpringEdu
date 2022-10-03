@@ -7,5 +7,6 @@ public class UserDto {
     private Long id;
     private String fullName;
     private String title;
+    private String status;
     private int age;
 }
